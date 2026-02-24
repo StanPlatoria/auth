@@ -3,15 +3,28 @@ class SessionsController < ApplicationController
     # render login form in sessions/new.html.erb
   end
 
-  def create
-    # authenticate the user
-    # 1. try to find the user by their unique identifier
-    # 2. if the user exists -> check if they know their password
-    # 3. if they know their password -> login is successful
-    # 4. if the user doesn't exist or they don't know their password -> login fails
-    flash["notice"] = "Welcome."
-    redirect_to "/companies"
+def create
+  # 1. try to find the user by email
+  @user = User.find_by({ "email" => params["email"] })
+
+  # 2. check if user exists
+  if @user != nil
+
+    # 3. check password
+    if @user["password"] == params["password"]
+      flash["notice"] = "Welcome."
+      redirect_to "/companies"
+    else
+      flash["notice"] = "Wrong password."
+      redirect_to "/login"
+    end
+
+  else
+    # 4. user does not exist
+    flash["notice"] = "Invalid email or password."
+    redirect_to "/login"
   end
+end
 
   def destroy
     # logout the user
