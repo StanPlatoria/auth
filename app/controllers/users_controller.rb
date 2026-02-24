@@ -11,8 +11,10 @@ class UsersController < ApplicationController
     @user["first_name"] = params["first_name"]
     @user["last_name"] = params["last_name"]
     @user["email"] = params["email"]
-    @user["password"] = params["password"]
+    @user.password = params["password"]
     @user.save
-    redirect_to "/users/#{@user["id"]}"
+    session["user_id"] = @user.id
+    flash["notice"] = "Welcome, #{@user["first_name"]}."
+    redirect_to "/companies"
   end
 end
