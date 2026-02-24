@@ -13,4 +13,4 @@ re_encrypted_pass = BCrypt::Password.new(encrypted_pass)
 puts re_encrypted_pass
 # 3. test secret against prepared encrypted string
 user_entered_password = "kitens"
-puts re_encrypted_pass == "puppies"
+puts BCrypt::Password.new(encrypted_pass) == "puppies"
